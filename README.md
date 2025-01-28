@@ -1,15 +1,21 @@
 # tempy for Go
 
-📂 The tempy npm package ported to Go
+📂 The [tempy npm package](https://www.npmjs.com/package/tempy) ported to Go
 
 <table align=center><td>
 
 ```go
-tempy.TemporaryDirectoryTask(func(d string) struct{} {
-  fmt.Printf("using temp dir %s\n", d)
-  // Do things in the directory...
-  return struct{}{}
-}, nil)
+fmt.Println(tempy.TemporaryFile(nil))
+fmt.Println(tempy.TemporaryFile(&tempy.FileOptions{Extension: "png"}))
+fmt.Println(tempy.TemporaryFile(&tempy.FileOptions{Name: "unicorn.png"}))
+fmt.Println(tempy.TemporaryDirectory(nil))
+fmt.Println(tempy.TemporaryDirectory(&tempy.DirectoryOptions{Prefix: "name"}))
+// Possible output:
+// /tmp/a1b2c3d4a1b2c3d4a1b2c3d4a1b2c3d4
+// /tmp/a1b2c3d4a1b2c3d4a1b2c3d4a1b2c3d4.png
+// /tmp/unicorn.png
+// /tmp/a1b2c3d4a1b2c3d4a1b2c3d4a1b2c3d4
+// /tmp/name_a1b2c3d4a1b2c3d4a1b2c3d4a1b2c3d4
 ```
 
 </table>
@@ -19,7 +25,7 @@ tempy.TemporaryDirectoryTask(func(d string) struct{} {
 ![Go](https://img.shields.io/badge/Go-00ADD8?style=for-the-badge&logo=Go&logoColor=FFFFFF)
 
 ```sh
-go get github.com/jcbhmr/go-tempy
+go get github.com/jcbhmr/go-tempy/v3
 ```
 
 ## Usage
@@ -28,6 +34,12 @@ go get github.com/jcbhmr/go-tempy
 
 ```go
 package main
+
+import (
+  "fmt"
+
+  "github.com/jcbhmr/go-tempy/v3"
+)
 
 func main() {
   fmt.Println(tempy.TemporaryFile(nil))
@@ -44,7 +56,7 @@ func main() {
 }
 ```
 
-[📚 See pkg.go.dev/github.com/jcbhmr/go-tempy for more docs](https://pkg.go.dev/github.com/jcbhmr/go-tempy)
+[📚 See pkg.go.dev/github.com/jcbhmr/go-tempy/v3 for more docs](https://pkg.go.dev/github.com/jcbhmr/go-tempy/v3)
 
 ## Development
 
