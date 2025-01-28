@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/jcbhmr/go-tempy"
+	"github.com/jcbhmr/go-tempy/v3"
 )
 
 func ptr[T any](v T) *T {
