@@ -64,12 +64,13 @@ func main() {
 
 This package attempts to mirror the functionality and API surface of [the tempy npm package](https://www.npmjs.com/package/tempy). To that end, we need to convert some JavaScript concepts to Go concepts.
 
-- Union types like `TypedArray | Buffer` are mapped to `any` with a `switch x.(type)` or `if v, ok := x.(T); ok`.
+- Union types like `TypedArray | Buffer` are mapped to `any` with a `switch x.(type)` or `if v, ok := x.(T); ok`. Doc comments should be included to clarify possible types.
 - If possible, JavaScript standard library or Node.js standard library types are mapped to Go standard library types.
-- Node.js `Buffer` is `bytes.Buffer`.
-- ECMA `TypedArray` variants are `[]<numeric>`. Note that `uint8` and `byte` are the same type.
-- ECMA `DataView` is `[]byte`. Byte slices can be viewed into other byte slices so this works OK.
-- Node.js streams are `io.*Closer` interfaces. Node.js streams are closed by the stream's consumer. We do the same here.
+- Node.js `Buffer` is `[]byte`. `bytes.Buffer` might seem like a good fit but it implements `Reader` and `Writer` interfaces which we don't want.
+- `ArrayBuffer` is `[]byte`. `bytes.Buffer` offers too much functionality.
+- ECMA `TypedArray` variants are `[]<numeric>`. Note that `byte` is an alias of `uint8`.
+- ECMA `DataView` is `[]byte`. Byte slices can be views into other byte slices so this works OK.
+- Node.js R/W streams are `io.(Read|Write)Closer` interfaces. Node.js streams are closed by the stream's consumer. We do the same here.
 - All `Promise<T>` values are flattened to just `T`. We let the user spawn goroutines if they want things to be asynchronous.
 
 Also try to keep the version tags in sync. v1.0.0 of tempy on npm should correspond with v1.0.0 of this module.
