@@ -65,6 +65,7 @@ func runTask[T any](temporaryPath string, callback TaskCallback[T]) (rv T, rerr 
 // fileContent: string | [*bytes.Buffer] | [](uint8 | uint16 | uint32 | uint64 | int8 | int16 | in32 | int64 | float32 | float64) | []byte
 func writeFile(filename string, fileContent any) error {
 	var bytes2 []byte
+	// Reminder: byte is an alias for uint8.
 	if v, ok := fileContent.(string); ok {
 		bytes2 = []byte(v)
 	} else if v, ok := fileContent.(*bytes.Buffer); ok {

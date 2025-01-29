@@ -5,6 +5,7 @@ import (
 	"fmt"
 )
 
+// From https://www.npmjs.com/package/unique-string
 func uniqueString() string {
 	b := make([]byte, 8)
 	_, err := rand.Read(b)
