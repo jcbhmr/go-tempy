@@ -8,6 +8,9 @@ import (
 	"os"
 	"path/filepath"
 	"unsafe"
+
+	"github.com/jcbhmr/go-tempy/v3/internal/tempdir"
+	"github.com/jcbhmr/go-tempy/v3/internal/uniquestring"
 )
 
 type FileOptions struct {
@@ -37,7 +40,7 @@ type DirectoryOptions struct {
 // The temporary path created by the function.
 //
 // Will be changed to a generic type alias in Go 1.24.
-type TaskCallback[T any] func(temporaryPath string) T
+type TaskCallback[T any] func(temporaryPath string) (T, error)
 
 // prefix: defaults to ""
 func getPath(prefix *string) string {
@@ -45,21 +48,20 @@ func getPath(prefix *string) string {
 	if prefix != nil {
 		prefix2 = *prefix
 	}
-	return filepath.Join(os.TempDir(), prefix2+uniqueString())
+	return filepath.Join(os.TempDir(), prefix2+uniquestring.Default())
 }
 
 func runTask[T any](temporaryPath string, callback TaskCallback[T]) (rv T, rerr error) {
-	var v T
 	defer func() {
 		err := os.RemoveAll(temporaryPath)
 		if err != nil {
+			var vZero T
+			rv = vZero
 			rerr = err
 			return
 		}
-		rv = v
 	}()
-	v = callback(temporaryPath)
-	return
+	return callback(temporaryPath)
 }
 
 // fileContent: string | [*bytes.Buffer] | [](uint8 | uint16 | uint32 | uint64 | int8 | int16 | in32 | int64 | float32 | float64) | []byte
@@ -97,13 +99,23 @@ func writeFile(filename string, fileContent any) error {
 	return os.WriteFile(filename, bytes2, 0o666)
 }
 
-func writeStream(filename string, stream io.ReadCloser) error {
-	defer stream.Close()
+func writeStream(filename string, stream io.ReadCloser) (rerr error) {
+	defer func() {
+		err := stream.Close()
+		if err != nil {
+			rerr = err
+		}
+	}()
 	file, err := os.Create(filename)
 	if err != nil {
 		return err
 	}
-	defer file.Close()
+	defer func() {
+		err := file.Close()
+		if err != nil {
+			rerr = err
+		}
+	}()
 	_, err = io.Copy(file, stream)
 	if err != nil {
 		return err
@@ -218,4 +230,4 @@ func TemporaryWriteSync(fileContent any, options *FileOptions) (string, error) {
 }
 
 // Constant
-var RootTemporaryDirectory = tempDir
+var RootTemporaryDirectory = tempdir.Default

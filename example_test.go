@@ -2,7 +2,6 @@ package tempy_test
 
 import (
 	"fmt"
-	"testing"
 
 	"github.com/jcbhmr/go-tempy/v3"
 )
@@ -25,75 +24,57 @@ func ExampleTemporaryFile() {
 	fmt.Println(tempy.TemporaryDirectory(nil))
 
 	// Possible output:
-	// /tmp/tempy-123456789
-	// /tmp/tempy-123456789.png
+	// /tmp/a1b2c3d4a1b2c3d4a1b2c3d4a1b2c3d4
+	// /tmp/a1b2c3d4a1b2c3d4a1b2c3d4a1b2c3d4.png
 	// /tmp/unicorn.png
-	// /tmp/tempy-123456789
-}
-func TestExampleTemporaryFile(t *testing.T) {
-	ExampleTemporaryFile()
+	// /tmp/a1b2c3d4a1b2c3d4a1b2c3d4a1b2c3d4
 }
 
 func ExampleTemporaryFileTask() {
-	tempy.TemporaryFileTask(func(tempFile string) struct{} {
+	type T = any
+	tempy.TemporaryFileTask(func(tempFile string) (T, error) {
 		fmt.Println(tempFile)
-		return struct{}{}
+		return nil, nil
 	}, nil)
-	// Possible output: /tmp/tempy-123456789
-}
-func TestExampleTemporaryFileTask(t *testing.T) {
-	ExampleTemporaryFileTask()
+	// Possible output: /tmp/a1b2c3d4a1b2c3d4a1b2c3d4a1b2c3d4
 }
 
 func ExampleTemporaryDirectory() {
 	fmt.Println(tempy.TemporaryDirectory(nil))
 
 	fmt.Println(tempy.TemporaryDirectory(&tempy.DirectoryOptions{
-		Prefix: ptr("a"),
+		Prefix: ptr("name_"),
 	}))
 
 	// Possible output:
-	// /tmp/tempy-123456789
-	// /tmp/a_123456789
-}
-func TestExampleTemporaryDirectory(t *testing.T) {
-	ExampleTemporaryDirectory()
+	// /tmp/a1b2c3d4a1b2c3d4a1b2c3d4a1b2c3d4
+	// /tmp/name_a1b2c3d4a1b2c3d4a1b2c3d4a1b2c3d4
 }
 
 func ExampleTemporaryDirectoryTask() {
-	tempy.TemporaryDirectoryTask(func(tempDir string) struct{} {
+	type T = any
+	tempy.TemporaryDirectoryTask(func(tempDir string) (T, error) {
 		fmt.Println(tempDir)
-		return struct{}{}
+		return nil, nil
 	}, nil)
-	// Possible output: /tmp/tempy-123456789
-}
-func TestExampleTemporaryDirectoryTask(t *testing.T) {
-	ExampleTemporaryDirectoryTask()
+	// Possible output: /tmp/a1b2c3d4a1b2c3d4a1b2c3d4a1b2c3d4
 }
 
 func ExampleTemporaryWrite() {
 	fmt.Println(tempy.TemporaryWrite("🦄", nil))
-	// Possible output: /tmp/tempy-123456789
-}
-func TestExampleTemporaryWrite(t *testing.T) {
-	ExampleTemporaryWrite()
+	// Possible output: /tmp/a1b2c3d4a1b2c3d4a1b2c3d4a1b2c3d4
 }
 
 func ExampleTemporaryWriteTask() {
-	tempy.TemporaryWriteTask("🦄", func(tempFile string) struct{} {
+	type T = any
+	tempy.TemporaryWriteTask("🦄", func(tempFile string) (T, error) {
 		fmt.Println(tempFile)
-		return struct{}{}
+		return nil, nil
 	}, nil)
-	// Possible output: /tmp/tempy-123456789
-}
-func TestExampleTemporaryWriteTask(t *testing.T) {
-	ExampleTemporaryWriteTask()
+	// Possible output: /tmp/a1b2c3d4a1b2c3d4a1b2c3d4a1b2c3d4
 }
 
 func ExampleTemporaryWriteSync() {
 	fmt.Println(tempy.TemporaryWriteSync("🦄", nil))
-	// Possible output: /tmp/tempy-123456789
-}
-func TestExampleTemporaryWriteSync(t *testing.T) {
-	ExampleTemporaryWriteSync()
+	// Possible output: /tmp/a1b2c3d4a1b2c3d4a1b2c3d4a1b2c3d4
 }

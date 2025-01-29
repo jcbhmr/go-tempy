@@ -1,12 +1,14 @@
-package tempy
+package tempdir
 
 import (
 	"os"
 	"path/filepath"
 )
 
-// From https://www.npmjs.com/package/temp-dir
-var tempDir = func() string {
+// Get the real path of the system temp directory.
+//
+// Constant.
+var Default = func() string {
 	t := os.TempDir()
 	r, err := filepath.EvalSymlinks(t)
 	if err != nil {

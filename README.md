@@ -9,7 +9,7 @@ fmt.Println(tempy.TemporaryFile(nil))
 fmt.Println(tempy.TemporaryFile(&tempy.FileOptions{Extension: "png"}))
 fmt.Println(tempy.TemporaryFile(&tempy.FileOptions{Name: "unicorn.png"}))
 fmt.Println(tempy.TemporaryDirectory(nil))
-fmt.Println(tempy.TemporaryDirectory(&tempy.DirectoryOptions{Prefix: "name"}))
+fmt.Println(tempy.TemporaryDirectory(&tempy.DirectoryOptions{Prefix: "name_"}))
 // Possible output:
 // /tmp/a1b2c3d4a1b2c3d4a1b2c3d4a1b2c3d4
 // /tmp/a1b2c3d4a1b2c3d4a1b2c3d4a1b2c3d4.png
@@ -19,6 +19,10 @@ fmt.Println(tempy.TemporaryDirectory(&tempy.DirectoryOptions{Prefix: "name"}))
 ```
 
 </table>
+
+🔗 Properly resolves `TMPDIR=/dirsymlink` symlinks \
+🐿️ Uses Go idioms while maintaining the same API surface as tempy \
+📁 Great for quickly writing some data to a temporary file
 
 ## Installation
 
@@ -46,7 +50,7 @@ func main() {
   fmt.Println(tempy.TemporaryFile(&tempy.FileOptions{Extension: "png"}))
   fmt.Println(tempy.TemporaryFile(&tempy.FileOptions{Name: "unicorn.png"}))
   fmt.Println(tempy.TemporaryDirectory(nil))
-  fmt.Println(tempy.TemporaryDirectory(&tempy.DirectoryOptions{Prefix: "name"}))
+  fmt.Println(tempy.TemporaryDirectory(&tempy.DirectoryOptions{Prefix: "name_"}))
   // Possible output:
   // /tmp/a1b2c3d4a1b2c3d4a1b2c3d4a1b2c3d4
   // /tmp/a1b2c3d4a1b2c3d4a1b2c3d4a1b2c3d4.png
