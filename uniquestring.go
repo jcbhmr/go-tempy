@@ -1,12 +1,15 @@
 package tempy
 
-import "crypto/rand"
+import (
+	"crypto/rand"
+	"fmt"
+)
 
 func uniqueString() string {
-	b := make([]byte, 32)
+	b := make([]byte, 8)
 	_, err := rand.Read(b)
 	if err != nil {
 		panic(err)
 	}
-	return string(b)
+	return fmt.Sprintf("%x", b)
 }
