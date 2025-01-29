@@ -20,6 +20,11 @@ fmt.Println(tempy.TemporaryDirectory(&tempy.DirectoryOptions{Prefix: "name_"}))
 
 </table>
 
+<p align=center>
+  <a href="https://pkg.go.dev/github.com/jcbhmr/go-tempy/v3">Docs</a>
+  | <a href="https://github.com/jcbhmr/go-tempy">GitHub</a>
+</p>
+
 🔗 Properly resolves `TMPDIR=/dirsymlink` symlinks \
 🐿️ Uses Go idioms while maintaining the same API surface as tempy \
 📁 Great for quickly writing some data to a temporary file
