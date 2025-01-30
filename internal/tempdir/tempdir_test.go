@@ -18,7 +18,7 @@ func readFileString(t *testing.T, path string) string {
 }
 
 func TestEnsureTheReturnedFilepathIsNotASymlink(t *testing.T) {
-	// TODO: Somehow mock os.TempDir() BEFORE the tempdir module is loaded.
+	// TODO: Somehow mock os.TempDir() to a symlinked folder BEFORE the tempdir module is loaded.
 
 	filePath := filepath.Join(tempdir.Default, "unicorn")
 	err := os.WriteFile(filePath, []byte("🦄"), 0o644)

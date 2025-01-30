@@ -5,17 +5,17 @@
 <table align=center><td>
 
 ```go
-fmt.Println(tempy.TemporaryFile(nil))
 fmt.Println(tempy.TemporaryFile(&tempy.FileOptions{Extension: "png"}))
-fmt.Println(tempy.TemporaryFile(&tempy.FileOptions{Name: "unicorn.png"}))
-fmt.Println(tempy.TemporaryDirectory(nil))
-fmt.Println(tempy.TemporaryDirectory(&tempy.DirectoryOptions{Prefix: "name_"}))
-// Possible output:
-// /tmp/a1b2c3d4a1b2c3d4a1b2c3d4a1b2c3d4
-// /tmp/a1b2c3d4a1b2c3d4a1b2c3d4a1b2c3d4.png
-// /tmp/unicorn.png
-// /tmp/a1b2c3d4a1b2c3d4a1b2c3d4a1b2c3d4
-// /tmp/name_a1b2c3d4a1b2c3d4a1b2c3d4a1b2c3d4
+// Possible output: /tmp/a1b2c3d4a1b2c3d4a1b2c3d4a1b2c3d4.png
+```
+
+```go
+p, err = tempy.TemporaryDirectory(&tempy.DirectoryOptions{Prefix: "name_"})
+if err != nil {
+  log.Fatal(err)
+}
+log.Println(p)
+// Possible output: /tmp/name_a1b2c3d4a1b2c3d4a1b2c3d4a1b2c3d4
 ```
 
 </table>
@@ -51,11 +51,24 @@ import (
 )
 
 func main() {
-  fmt.Println(tempy.TemporaryFile(nil))
-  fmt.Println(tempy.TemporaryFile(&tempy.FileOptions{Extension: "png"}))
-  fmt.Println(tempy.TemporaryFile(&tempy.FileOptions{Name: "unicorn.png"}))
-  fmt.Println(tempy.TemporaryDirectory(nil))
-  fmt.Println(tempy.TemporaryDirectory(&tempy.DirectoryOptions{Prefix: "name_"}))
+  log.Println(tempy.TemporaryFile(nil))
+
+  log.Println(tempy.TemporaryFile(&tempy.FileOptions{Extension: "png"}))
+
+  log.Println(tempy.TemporaryFile(&tempy.FileOptions{Name: "unicorn.png"}))
+
+  p, err = tempy.TemporaryDirectory(nil)
+  if err != nil {
+    log.Fatal(err)
+  }
+  log.Println(p)
+
+  p, err = tempy.TemporaryDirectory(&tempy.DirectoryOptions{Prefix: "name_"})
+  if err != nil {
+    log.Fatal(err)
+  }
+  log.Println(p)
+
   // Possible output:
   // /tmp/a1b2c3d4a1b2c3d4a1b2c3d4a1b2c3d4
   // /tmp/a1b2c3d4a1b2c3d4a1b2c3d4a1b2c3d4.png

@@ -2,6 +2,7 @@ package tempy_test
 
 import (
 	"fmt"
+	"log"
 
 	"github.com/jcbhmr/go-tempy/v3"
 )
@@ -21,7 +22,11 @@ func ExampleTemporaryFile() {
 		Name: ptr("unicorn.png"),
 	}))
 
-	fmt.Println(tempy.TemporaryDirectory(nil))
+	p, err := tempy.TemporaryDirectory(nil)
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println(p)
 
 	// Possible output:
 	// /tmp/a1b2c3d4a1b2c3d4a1b2c3d4a1b2c3d4
@@ -32,19 +37,30 @@ func ExampleTemporaryFile() {
 
 func ExampleTemporaryFileTask() {
 	type T = any
-	tempy.TemporaryFileTask(func(tempFile string) (T, error) {
+	_, err := tempy.TemporaryFileTask(func(tempFile string) (T, error) {
 		fmt.Println(tempFile)
 		return nil, nil
 	}, nil)
+	if err != nil {
+		log.Fatal(err)
+	}
 	// Possible output: /tmp/a1b2c3d4a1b2c3d4a1b2c3d4a1b2c3d4
 }
 
 func ExampleTemporaryDirectory() {
-	fmt.Println(tempy.TemporaryDirectory(nil))
+	p, err := tempy.TemporaryDirectory(nil)
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println(p)
 
-	fmt.Println(tempy.TemporaryDirectory(&tempy.DirectoryOptions{
+	p, err = tempy.TemporaryDirectory(&tempy.DirectoryOptions{
 		Prefix: ptr("name_"),
-	}))
+	})
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println(p)
 
 	// Possible output:
 	// /tmp/a1b2c3d4a1b2c3d4a1b2c3d4a1b2c3d4
@@ -53,28 +69,42 @@ func ExampleTemporaryDirectory() {
 
 func ExampleTemporaryDirectoryTask() {
 	type T = any
-	tempy.TemporaryDirectoryTask(func(tempDir string) (T, error) {
+	_, err := tempy.TemporaryDirectoryTask(func(tempDir string) (T, error) {
 		fmt.Println(tempDir)
 		return nil, nil
 	}, nil)
+	if err != nil {
+		log.Fatal(err)
+	}
 	// Possible output: /tmp/a1b2c3d4a1b2c3d4a1b2c3d4a1b2c3d4
 }
 
 func ExampleTemporaryWrite() {
-	fmt.Println(tempy.TemporaryWrite("🦄", nil))
+	p, err := tempy.TemporaryWrite("🦄", nil)
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println(p)
 	// Possible output: /tmp/a1b2c3d4a1b2c3d4a1b2c3d4a1b2c3d4
 }
 
 func ExampleTemporaryWriteTask() {
 	type T = any
-	tempy.TemporaryWriteTask("🦄", func(tempFile string) (T, error) {
+	_, err := tempy.TemporaryWriteTask("🦄", func(tempFile string) (T, error) {
 		fmt.Println(tempFile)
 		return nil, nil
 	}, nil)
+	if err != nil {
+		log.Fatal(err)
+	}
 	// Possible output: /tmp/a1b2c3d4a1b2c3d4a1b2c3d4a1b2c3d4
 }
 
 func ExampleTemporaryWriteSync() {
-	fmt.Println(tempy.TemporaryWriteSync("🦄", nil))
+	p, err := tempy.TemporaryWriteSync("🦄", nil)
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println(p)
 	// Possible output: /tmp/a1b2c3d4a1b2c3d4a1b2c3d4a1b2c3d4
 }
